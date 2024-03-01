@@ -369,7 +369,7 @@ body{
 /* Right Bar */
 .header.style2 .main-menu{
 	display:inline-block;
-	float:left;
+	float: left;
 }
 .header .right-bar {
 	float: right;
