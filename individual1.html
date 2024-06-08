@@ -125,7 +125,7 @@
 	<div class="body1">
 		<div class="quiz-container">
 			<h1>What is your gender identity?</h1>
-			<button class="gender-option"><a href="index.html">Women</a></button>
+			<button class="gender-option"><a href="vc-one-one/src/pages/Home/index.jsx">Women</a></button>
 			<button class="gender-option">Man</button>
 			<div class="info-box">
 				<p>
@@ -137,6 +137,7 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- ==================================================================== -->
 	<!-- Footer Area -->
 	<footer id="footer" class="footer ">
@@ -246,6 +247,45 @@
 	<script src="js/bootstrap.min.js"></script>
 	<!-- Main JS -->
 	<script src="js/main.js"></script>
-</body>
+	<script type="text/babel">
+		// Your React component code here
+		// Ensure to define and export your component (HomePage) before this script
 
+		const { useState, useCallback } = React;
+		const { BrowserRouter, Route, useNavigate } = ReactRouterDOM;
+
+		const HomePage = () => {
+			const [value, setValue] = useState('');
+			const navigate = useNavigate();
+
+			const handleJoinRoom = useCallback(() => {
+				navigate(`/room/${value}`);
+			}, [navigate, value]);
+
+			return (
+				<div className="container">
+					<div className="label">
+						<input
+							value={value}
+							onChange={e => setValue(e.target.value)}
+							type="text"
+							placeholder="Enter Room Code"
+							className="input"
+						/>
+						<span className="icon">🔍</span>
+					</div>
+					<button onClick={handleJoinRoom}>Join</button>
+				</div>
+			);
+		};
+
+		// Mounting the React component
+		ReactDOM.render(
+			<BrowserRouter>
+				<Route path="/" component={HomePage} />
+			</BrowserRouter>,
+			document.getElementById('root')
+		);
+	</script>
+</body>
 </html>
