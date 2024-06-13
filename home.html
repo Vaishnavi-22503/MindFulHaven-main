@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Home Page</title>
+     <link rel="stylesheet" href="HomePage.css">
+</head>
+
+<body>
+     <div class="container">
+          <div class="label">
+               <input type="text" placeholder="Enter Room Code" class="input" id="room-code" />
+               <span class="icon">🔍</span>
+          </div>
+          <button id="join-button">Join Room</button>
+          <button id="whatsapp-button">Join WhatsApp Video Call</button>
+     </div>
+
+     <script>
+          document.getElementById('join-button').addEventListener('click', () => {
+               const roomCode = document.getElementById('room-code').value;
+               window.location.href = `room.html?roomId=${roomCode}`;
+          });
+
+          document.getElementById('whatsapp-button').addEventListener('click', () => {
+               const phoneNumber = '+917993425399'; // Replace with the actual phone number
+               window.open(`https://wa.me/${phoneNumber}`, '_blank');
+          });
+     </script>
+</body>
+
+</html>
