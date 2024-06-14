@@ -1,0 +1,139 @@
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: 'Montserrat', sans-serif;
+}
+
+body {
+     background-image: url('login.jpg');
+     background-repeat: no-repeat;
+     background-position: center;
+     background-attachment: fixed;
+     background-blend-mode: multiply;
+     background-size: cover;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     height: 100vh;
+     margin: 0;
+     padding: 10px;
+}
+
+.container {
+     background-color: #fff;
+     border-radius: 30px;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+     width: 100%;
+     max-width: 400px;
+     /* Adjust width as needed */
+     padding: 40px 30px;
+     /* Adjust padding to ensure content fits well */
+}
+
+.container p {
+     font-size: 14px;
+     line-height: 20px;
+     letter-spacing: 0.3px;
+     margin: 20px 0;
+}
+
+.container span {
+     font-size: 12px;
+}
+
+.container a {
+     color: #333;
+     font-size: 13px;
+     text-decoration: none;
+     margin: 15px 0 10px;
+}
+
+.container button {
+     background-color: #71C9CE;
+     color: #fff;
+     font-size: 12px;
+     padding: 10px 45px;
+     border: 1px solid transparent;
+     border-radius: 8px;
+     font-weight: 600;
+     letter-spacing: 0.5px;
+     text-transform: uppercase;
+     margin-top: 10px;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+}
+
+.container button.hidden {
+     background-color: transparent;
+     border-color: #fff;
+}
+
+.container form {
+     background-color: #fff;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+}
+
+.container input {
+     background-color: #eee;
+     border: none;
+     margin: 8px 0;
+     padding: 10px 15px;
+     font-size: 13px;
+     border-radius: 8px;
+     width: 100%;
+     outline: none;
+}
+
+.warning {
+     color: red;
+     font-size: 0.8em;
+}
+
+@media (max-width: 768px) {
+     .container {
+          padding: 20px;
+     }
+
+     .container p {
+          font-size: 12px;
+     }
+
+     .container span,
+     .container a {
+          font-size: 11px;
+     }
+
+     .container button {
+          font-size: 10px;
+          padding: 8px 30px;
+     }
+
+     .container input {
+          font-size: 12px;
+          padding: 8px 10px;
+     }
+}
+
+@media (max-width: 480px) {
+     .container {
+          max-width: 100%;
+     }
+
+     .container form {
+          padding: 0 20px;
+     }
+
+     .container button {
+          font-size: 9px;
+          padding: 6px 20px;
+     }
+
+     .container input {
+          font-size: 11px;
+          padding: 6px 8px;
+     }
+}

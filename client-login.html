@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+     <link rel="stylesheet" href="css/login.css">
+     <title>Login Page</title>
+     <style>
+          .warning {
+               color: red;
+               font-size: 0.8em;
+          }
+     </style>
+</head>
+
+<body>
+
+     <div class="container" id="container">
+          <div class="form-container sign-up">
+               <form id="signUpForm">
+                    <h1>Create Account</h1><br>
+                    <span>or use your email for registration</span>
+                    <input type="text" id="signupName" placeholder="Name">
+                    <input type="email" id="signupEmail" placeholder="Email">
+                    <input type="password" id="signupPassword" placeholder="Password">
+                    <span id="signupWarning" class="warning"></span>
+                    <button type="submit">Sign Up</button>
+               </form>
+          </div>
+          <div class="form-container sign-in">
+               <form id="signInForm">
+                    <h1>Sign In</h1><br>
+                    <span>or use your email password</span>
+                    <input type="email" id="signinEmail" placeholder="Email">
+                    <input type="password" id="signinPassword" placeholder="Password">
+                    <span id="signinWarning" class="warning"></span>
+                    <a href="forget.html">Forget Your Password?</a>
+                    <button type="submit">Sign In</button>
+               </form>
+          </div>
+          <div class="toggle-container">
+               <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                         <h1>Welcome Back!</h1>
+                         <p>Enter your personal details to use all site features</p>
+                         <button class="hidden" id="login">Sign In</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                         <h1>Hello, Friend!</h1>
+                         <p>Register with your personal details to use all site features</p>
+                         <button class="hidden" id="register">Sign Up</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <script src="js/login.js"></script>
+     <script>
+          document.addEventListener('DOMContentLoaded', function () {
+               const signUpForm = document.getElementById('signUpForm');
+               const signInForm = document.getElementById('signInForm');
+
+               signUpForm.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    const name = document.getElementById('signupName').value;
+                    const email = document.getElementById('signupEmail').value;
+                    const password = document.getElementById('signupPassword').value;
+                    const warning = document.getElementById('signupWarning');
+
+                    if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
+                         warning.textContent = 'Please fill out all fields.';
+                    } else {
+                         // Perform form submission or other actions
+                         window.location.href = 'index.html'; // Redirect after successful validation
+                    }
+               });
+
+               signInForm.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    const email = document.getElementById('signinEmail').value;
+                    const password = document.getElementById('signinPassword').value;
+                    const warning = document.getElementById('signinWarning');
+
+                    if (email.trim() === '' || password.trim() === '') {
+                         warning.textContent = 'Please enter your email and password.';
+                    } else {
+                         // Perform form submission or other actions
+                         window.location.href = 'index.html'; // Redirect after successful validation
+                    }
+               });
+          });
+     </script>
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="css/appointment.css">
+     <title>Book Appointment</title>
+     <style>
+          .notification {
+               position: fixed;
+               top: 10px;
+               right: 10px;
+               background-color: #4CAF50;
+               color: white;
+               padding: 10px;
+               border-radius: 5px;
+               opacity: 0;
+               transition: opacity 0.5s;
+          }
+
+          .notification.error {
+               background-color: #f44336;
+          }
+
+          .notification.show {
+               opacity: 1;
+          }
+
+          .appointment-item {
+               margin-bottom: 20px;
+               padding: 10px;
+               border: 1px solid #ccc;
+               border-radius: 5px;
+          }
+
+          .appointment-item p {
+               margin: 5px 0;
+          }
+
+          .join-button {
+               background-color: #007bff;
+               font-size: large;
+               color: white;
+               border: none;
+               height: 50px;
+               width: 100px;
+               padding: 5px 10px;
+               border-radius: 3px;
+               cursor: pointer;
+          }
+          .delete-button {
+               background-color: #ff0000;
+               margin: 25px;
+               margin-right: 250pt;
+               font-size: large;
+               color: white;
+               border: none;
+               height: 50px;
+               width: 100px;
+               padding: 5px 10px;
+               border-radius: 3px;
+               cursor: pointer;
+          }
+          .delete-button:hover {
+                background-color: #b30000;
+          }
+          .input-container {
+               --c-text: rgb(50, 50, 80);
+               --c-bg: rgb(252, 252, 252);
+               --c-outline: rgb(55, 45 , 190);
+               display: grid;
+               gap: 1ch;
+               position: relative;
+               max-width: 650px;
+               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+               color: black;
+               }
+               .input-field {
+               padding: 0.5em 0.75em;
+               border-radius: 0.2em;
+               border: 1px solid var(--c-border, currentColor);
+               color: var(--c-text);
+               font-size: 1rem;
+               letter-spacing: 0.1ch;
+               width: 100%;
+               }
+
+               .input-field:not(:placeholder-shown) + .input-label {
+               transform: translateY(-220%);
+               opacity: 1;
+               }
+
+               .input-field:invalid {
+               --c-border: rgb(230, 85, 60);
+               --c-text: rgb(230, 85, 60);
+               --c-outline: rgb(230, 85, 60);
+               }
+
+               .input-field:is(:disabled, :read-only) {
+               --c-border: rgb(150, 150, 150);
+               --c-text: rgb(170, 170, 170);
+               }
+
+               .input-field:is(:focus, :focus-visible) {
+               outline: 2px solid var(--c-outline);
+               outline-offset: 2px;
+               }
+
+               .input-label {
+               --timing: 200ms ease-in;
+               position: absolute;
+               left: 0;
+               top: 50%;
+               transition: transform var(--timing),
+               opacity var(--timing);
+               transform: translateY(-50%);
+               opacity: 0;
+               color: var(--c-text);
+               font-weight: 500;
+               }
+
+     </style>
+</head>
+
+<body>
+     <form id="appointmentForm">
+          <h1>Book Appointment</h1>
+          <p class="input-container">
+               <input type="text" placeholder="Enter your name" name="text" id="text" class="input-field" autocomplete="name">
+          </p>
+          <p class="input-container">
+               <input type="email" placeholder="Enter your Email" name="text" id="email" class="input-field" autocomplete="name">
+          </p>
+          <p class="input-container">
+               <input type="date" placeholder="Enter Date" name="text" id="date" class="input-field" autocomplete="name">
+          </p>
+          <p class="input-container">
+               <input type="time" placeholder="Enter Time" name="text" id="time" class="input-field" autocomplete="name">
+          </p>
+          <p class="input-container">
+               <input type="text" placeholder="Enter Doctor name" name="text" id="Doctor" class="input-field" autocomplete="name">
+          </p>
+          <p class="input-container">
+               <input type="text" placeholder="Enter Google Meet Link" name="text" id="googleMeet" class="input-field" autocomplete="name">
+          </p>
+          <button type="submit">Book Appointment</button>
+     </form>
+
+     <div id="appointmentDisplay">
+          <h2>Previous Appointments</h2>
+          <div id="appointmentsList"></div>
+     </div>
+
+     <script>
+          document.addEventListener('DOMContentLoaded', function () {
+               displayAllAppointments();
+          });
+
+          document.getElementById('appointmentForm').addEventListener('submit', function (event) {
+               event.preventDefault();
+
+               // Get form values
+               const name = document.getElementById('name').value;
+               const email = document.getElementById('email').value;
+               const date = document.getElementById('date').value;
+               const time = document.getElementById('time').value;
+               const doctor = document.getElementById('doctor').value;
+               const googleMeet = document.getElementById('googleMeet').value;
+
+               // Simple validation
+               if (name === '' || email === '' || date === '' || time === '' || doctor === '' || googleMeet === '') {
+                    displayMessage('Please fill in all fields', 'error');
+                    return;
+               }
+
+               // Store appointment in local storage
+               const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+               appointments.push({ name, email, date, time, doctor, googleMeet });
+               localStorage.setItem('appointments', JSON.stringify(appointments));
+
+               // Display success message
+               displayMessage(`Appointment booked successfully for ${name} with ${doctor} on ${date} at ${time}`, 'success');
+
+               // Display all appointments
+               displayAllAppointments();
+
+               // Clear form
+               document.getElementById('appointmentForm').reset();
+          });
+
+          function displayMessage(message, type) {
+               // Create notification element
+               const notification = document.createElement('div');
+               notification.className = `notification ${type} show`;
+               notification.textContent = message;
+
+               // Append notification to body
+               document.body.appendChild(notification);
+
+               // Remove notification after 3 seconds
+               setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                         document.body.removeChild(notification);
+                    }, 500);
+               }, 3000);
+          }
+
+          function displayAllAppointments() {
+               const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+
+               const appointmentsList = document.getElementById('appointmentsList');
+               appointmentsList.innerHTML = '';
+
+               appointments.forEach((appointment, index) => {
+                    const appointmentItem = document.createElement('div');
+                    appointmentItem.className = 'appointment-item';
+                    appointmentItem.innerHTML = `
+                    <p><strong>Name:</strong> ${appointment.name}</p>
+                    <p><strong>Email:</strong> ${appointment.email}</p>
+                    <p><strong>Date:</strong> ${appointment.date}</p>
+                    <p><strong>Time:</strong> ${appointment.time}</p>
+                    <p><strong>Doctor:</strong> ${appointment.doctor}</p>
+                    <button class="join-button" onclick="openGoogleMeet('${appointment.googleMeet}')">Join</button>
+                    <button class="delete-button" onclick="deleteAppointment(${index})">Delete</button>
+                `;
+                    appointmentsList.appendChild(appointmentItem);
+               });
+          }
+
+          function deleteAppointment(index) {
+               let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+               appointments.splice(index, 1);
+               localStorage.setItem('appointments', JSON.stringify(appointments));
+               displayAllAppointments();
+          }
+
+          function openGoogleMeet(url) {
+               window.open(url, '_blank');
+          }
+     </script>
+</body>
+
+</html>

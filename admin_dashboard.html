@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Admin Dashboard</title>
+     <style>
+          body {
+               font-family: Arial, sans-serif;
+               background-color: #f0f8ff;
+               margin: 0;
+               padding: 0;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               height: 100vh;
+          }
+
+          .container {
+               width: 80%;
+               margin-top: 20px;
+          }
+
+          h1 {
+               text-align: center;
+               margin-bottom: 20px;
+          }
+
+          table {
+               width: 100%;
+               border-collapse: collapse;
+               margin-top: 20px;
+               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+
+          th,
+          td {
+               border: 1px solid #ddd;
+               padding: 12px;
+               text-align: center;
+          }
+
+          th {
+               background-color: #f2f2f2;
+          }
+
+          .meeting-btn,
+          .delete-btn {
+               padding: 8px 16px;
+               border: none;
+               cursor: pointer;
+               border-radius: 4px;
+               transition: background-color 0.3s ease;
+          }
+
+          .meeting-btn {
+               background-color: #007bff;
+               color: white;
+          }
+
+          .meeting-btn:hover {
+               background-color: #005dc0;
+          }
+
+          .delete-btn {
+               background-color: #f44336;
+               color: white;
+          }
+
+          .delete-btn:hover {
+               background-color: #b30000;
+          }
+     </style>
+</head>
+
+<body>
+     <div class="container">
+          <h1>Admin Dashboard</h1>
+          <table>
+               <thead>
+                    <tr>
+                         <th>Name</th>
+                         <th>Email</th>
+                         <th>Date</th>
+                         <th>Time</th>
+                         <th>Doctor</th>
+                         <th>Actions</th>
+                    </tr>
+               </thead>
+               <tbody id="appointmentsTableBody">
+                    <!-- Appointments will be populated here -->
+               </tbody>
+          </table>
+     </div>
+
+     <script>
+          document.addEventListener('DOMContentLoaded', function () {
+               const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+               const tableBody = document.getElementById('appointmentsTableBody');
+
+               function renderAppointments() {
+                    tableBody.innerHTML = ''; // Clear existing rows
+
+                    appointments.forEach((appointment, index) => {
+                         const row = document.createElement('tr');
+                         row.innerHTML = `
+                        <td>${appointment.name}</td>
+                        <td>${appointment.email}</td>
+                        <td>${appointment.date}</td>
+                        <td>${appointment.time}</td>
+                        <td>${appointment.doctor}</td>
+                        <td>
+                            <button class="meeting-btn" onclick="joinMeeting('${appointment.name}', '${appointment.doctor}', '${appointment.googleMeet}')">Join Meeting</button>
+                            <button class="delete-btn" onclick="deleteAppointment(${index})">Delete</button>
+                        </td>
+                    `;
+                         tableBody.appendChild(row);
+                    });
+               }
+
+               renderAppointments();
+
+               window.deleteAppointment = function (index) {
+                    appointments.splice(index, 1);
+                    localStorage.setItem('appointments', JSON.stringify(appointments));
+                    renderAppointments();
+               };
+
+               window.joinMeeting = function (name, doctor, googleMeet) {
+                    // Here you would implement the logic to join the meeting, such as opening a new window or redirecting
+                    // For demonstration, we'll just log the meeting details.
+                    console.log(`Joining meeting with ${name} and ${doctor}`);
+                    console.log(`Meeting Link: ${googleMeet}`);
+                    // Example: Open the Google Meet link in a new tab
+                    window.open(googleMeet, '_blank');
+               };
+          });
+     </script>
+</body>
+
+</html>

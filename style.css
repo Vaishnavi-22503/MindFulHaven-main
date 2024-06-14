@@ -3660,3 +3660,37 @@ h1 {
 	color: #71C9CE;
 }
 /*  */
+.loginbtn {
+	background-color: #71C9CE;
+	/* Blue color, you can change this to your preferred color */
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 18px;
+	margin-top: 10px;
+	height: 60px;
+	width: 100px;
+	margin-left: 10%;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+.loginbtn a {
+	color: inherit;
+	/* Inherits the color property from .loginbtn */
+	text-decoration: none;
+	/* Removes underline from the link */
+}
+
+.loginbtn:hover {
+	background-color: #55999d;
+	/* Darker blue color on hover */
+}
+
+.loginbtn i {
+	margin-right: 5px;
+	/* Adds some space between the icon and the text */
+}
