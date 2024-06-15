@@ -4238,12 +4238,12 @@ h1 {
 	background-color: #71C9CE;
 	border: none;
 	color: white;
-	padding: 10px 24px;
+	padding: 10px 10px;
 	font-size: 16px;
 	cursor: pointer;
 	height: 50px;
 	margin-top: auto;
-	margin-left: auto;
+	/* margin-left: auto; */
 }
 
 .loginbtn a {
@@ -4254,6 +4254,28 @@ h1 {
 }
 
 .loginbtn:hover {
+	background-color: #2C2D3F;
+	/* Darker green */
+}
+.Adminbtn{
+	background-color: #71C9CE;
+		border: none;
+		color: white;
+		padding: 10px 10px;
+		font-size: 16px;
+		cursor: pointer;
+		height: 50px;
+		margin-top: auto;
+		margin-left: 10px;
+}
+.Adminbtn a {
+	color: white;
+	/* White text */
+	text-decoration: none;
+	/* Remove underline */
+}
+
+.Adminbtn:hover {
 	background-color: #2C2D3F;
 	/* Darker green */
 }
