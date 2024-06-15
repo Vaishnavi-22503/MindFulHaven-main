@@ -4026,16 +4026,18 @@ body {
 
 .card-container {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	/* Adjust as needed */
 	align-items: center;
 	/* Adjust as needed */
 	gap: 50px;
 	/* Adjust as needed */
-	margin: 15px 0px;
+	/* margin: 15px; */
 	padding: 50px 350px 30px 35px ;
-	width: 2000px;
-	height: 500px;
+	width: 1500px;
+	margin-right: none;
+	border: #000;
+	/* height: 500px; */
 }
 
 .card {
