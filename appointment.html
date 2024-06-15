@@ -123,6 +123,57 @@
                color: var(--c-text);
                font-weight: 500;
           }
+
+          .calendar-container {
+               max-width: 300px;
+               margin: 20px auto;
+          }
+
+          .calendar {
+               width: 100%;
+               border-collapse: collapse;
+          }
+
+          .calendar th,
+          .calendar td {
+               padding: 10px;
+               text-align: center;
+               border: 1px solid #ddd;
+          }
+
+          .calendar th {
+               background-color: #f4f4f4;
+          }
+
+          .calendar td {
+               cursor: pointer;
+          }
+
+          .calendar .selected {
+               background-color: #007bff;
+               color: white;
+          }
+
+          .time-slots {
+               display: flex;
+               flex-wrap: wrap;
+               gap: 10px;
+               justify-content: center;
+               margin-top: 20px;
+          }
+
+          .time-slot {
+               padding: 10px 15px;
+               border: 1px solid #ddd;
+               border-radius: 5px;
+               cursor: pointer;
+               transition: background-color 0.3s;
+          }
+
+          .time-slot.selected {
+               background-color: #007bff;
+               color: white;
+          }
      </style>
 </head>
 
@@ -135,12 +186,11 @@
           <p class="input-container">
                <input type="email" placeholder="Enter your Email" id="email" class="input-field" autocomplete="email">
           </p>
-          <p class="input-container">
-               <input type="date" id="date" class="input-field">
-          </p>
-          <p class="input-container">
-               <input type="time" id="time" class="input-field">
-          </p>
+          <div class="calendar-container">
+               <input type="hidden" id="date" class="input-field">
+               <div id="calendar"></div>
+          </div>
+          <div class="time-slots" id="timeSlots"></div>
           <p class="input-container">
                <input type="text" placeholder="Enter Doctor name" id="Doctor" class="input-field">
           </p>
@@ -158,6 +208,7 @@
      <script>
           document.addEventListener('DOMContentLoaded', function () {
                displayAllAppointments();
+               generateCalendar();
           });
 
           document.getElementById('appointmentForm').addEventListener('submit', function (event) {
@@ -167,7 +218,7 @@
                const name = document.getElementById('text').value;
                const email = document.getElementById('email').value;
                const date = document.getElementById('date').value;
-               const time = document.getElementById('time').value;
+               const time = document.querySelector('.time-slot.selected') ? document.querySelector('.time-slot.selected').textContent : '';
                const doctor = document.getElementById('Doctor').value;
                const googleMeet = document.getElementById('googleMeet').value;
 
@@ -190,6 +241,7 @@
 
                // Clear form
                document.getElementById('appointmentForm').reset();
+               clearSelectedSlots();
           });
 
           function displayMessage(message, type) {
@@ -241,6 +293,74 @@
 
           function openGoogleMeet(url) {
                window.open(url, '_blank');
+          }
+
+          function generateCalendar() {
+               const calendar = document.getElementById('calendar');
+               const dateInput = document.getElementById('date');
+
+               const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+               const today = new Date();
+               const month = today.getMonth();
+               const year = today.getFullYear();
+
+               const firstDay = new Date(year, month, 1).getDay();
+               const lastDate = new Date(year, month + 1, 0).getDate();
+
+               let html = '<table class="calendar">';
+               html += '<tr>';
+               days.forEach(day => html += `<th>${day}</th>`);
+               html += '</tr><tr>';
+
+               for (let i = 0; i < firstDay; i++) {
+                    html += '<td></td>';
+               }
+
+               for (let i = 1; i <= lastDate; i++) {
+                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                    html += `<td class="date-cell" data-date="${dateStr}">${i}</td>`;
+
+                    if ((i + firstDay) % 7 === 0) {
+                         html += '</tr><tr>';
+                    }
+               }
+
+               html += '</tr></table>';
+               calendar.innerHTML = html;
+
+               document.querySelectorAll('.date-cell').forEach(cell => {
+                    cell.addEventListener('click', function () {
+                         document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('selected'));
+                         this.classList.add('selected');
+                         dateInput.value = this.getAttribute('data-date');
+                         generateTimeSlots();
+                    });
+               });
+          }
+
+          function generateTimeSlots() {
+               const timeSlotsContainer = document.getElementById('timeSlots');
+               const slots = ['11:30 AM', '12:30 PM', '1:30 PM', '4:30 PM', '5:30 PM', '6:30 PM'];
+               let html = '';
+
+               slots.forEach(slot => {
+                    html += `<div class="time-slot" data-time="${slot}">${slot}</div>`;
+               });
+
+               timeSlotsContainer.innerHTML = html;
+
+               document.querySelectorAll('.time-slot').forEach(slot => {
+                    slot.addEventListener('click', function () {
+                         document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                         this.classList.add('selected');
+                    });
+               });
+          }
+
+          function clearSelectedSlots() {
+               document.querySelectorAll('.date-cell, .time-slot').forEach(element => {
+                    element.classList.remove('selected');
+               });
           }
      </script>
 </body>
