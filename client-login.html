@@ -6,7 +6,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
      <link rel="stylesheet" href="css/login.css">
-     <title>Login Page</title>
+     <title>Login and Sign Up Page</title>
      <style>
           .warning {
                color: red;
@@ -21,10 +21,10 @@
           <div class="form-container sign-up">
                <form id="signUpForm">
                     <h1>Create Account</h1><br>
-                    <span>or use your email for registration</span>
-                    <input type="text" id="signupName" placeholder="Name">
+                    <span>or sign in with your email</span>
                     <input type="email" id="signupEmail" placeholder="Email">
-                    <input type="password" id="signupPassword" placeholder="Password">
+                    <input type="password" id="signupPassword" placeholder="Create Password">
+                    <input type="password" id="signupPasswordConfirm" placeholder="Re-enter Password">
                     <span id="signupWarning" class="warning"></span>
                     <button type="submit">Sign Up</button>
                </form>
@@ -32,11 +32,10 @@
           <div class="form-container sign-in">
                <form id="signInForm">
                     <h1>Sign In</h1><br>
-                    <span>or use your email password</span>
+                    <span>or sign up with your email</span>
                     <input type="email" id="signinEmail" placeholder="Email">
                     <input type="password" id="signinPassword" placeholder="Password">
                     <span id="signinWarning" class="warning"></span>
-                    <a href="forget.html">Forget Your Password?</a>
                     <button type="submit">Sign In</button>
                </form>
           </div>
@@ -44,12 +43,12 @@
                <div class="toggle">
                     <div class="toggle-panel toggle-left">
                          <h1>Welcome Back!</h1>
-                         <p>Enter your personal details to use all site features</p>
+                         <p>Enter your credentials to access all site features</p>
                          <button class="hidden" id="login">Sign In</button>
                     </div>
                     <div class="toggle-panel toggle-right">
                          <h1>Hello, Friend!</h1>
-                         <p>Register with your personal details to use all site features</p>
+                         <p>Register with your email to use all site features</p>
                          <button class="hidden" id="register">Sign Up</button>
                     </div>
                </div>
@@ -64,16 +63,20 @@
 
                signUpForm.addEventListener('submit', function (event) {
                     event.preventDefault();
-                    const name = document.getElementById('signupName').value;
                     const email = document.getElementById('signupEmail').value;
                     const password = document.getElementById('signupPassword').value;
+                    const confirmPassword = document.getElementById('signupPasswordConfirm').value;
                     const warning = document.getElementById('signupWarning');
 
-                    if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
+                    if (email.trim() === '' || password.trim() === '' || confirmPassword.trim() === '') {
                          warning.textContent = 'Please fill out all fields.';
+                    } else if (password !== confirmPassword) {
+                         warning.textContent = 'Passwords do not match. Please re-enter.';
                     } else {
-                         // Perform form submission or other actions
-                         window.location.href = 'index.html'; // Redirect after successful validation
+                         // Perform form submission or other actions (e.g., send data to server)
+                         // Here you can simulate storage or redirect to another page
+                         alert('User registered successfully!'); // Replace with actual logic
+                         window.location.href = 'index.html'; // Redirect after successful registration
                     }
                });
 
@@ -86,12 +89,15 @@
                     if (email.trim() === '' || password.trim() === '') {
                          warning.textContent = 'Please enter your email and password.';
                     } else {
-                         // Perform form submission or other actions
-                         window.location.href = 'index.html'; // Redirect after successful validation
+                         // Perform form submission or other actions (e.g., send data to server)
+                         // Here you can simulate authentication or redirect to another page
+                         alert('User signed in successfully!'); // Replace with actual logic
+                         window.location.href = 'index.html'; // Redirect after successful sign-in
                     }
                });
           });
      </script>
+
 </body>
 
 </html>
