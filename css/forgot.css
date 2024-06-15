@@ -67,7 +67,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-     background-color: #5AB5B9;
+     background-color: #2C2D3F;
      /* Slightly darken on hover for better visual feedback */
 }
 
