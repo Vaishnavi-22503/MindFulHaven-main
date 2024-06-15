@@ -174,6 +174,11 @@
                background-color: #007bff;
                color: white;
           }
+
+          .time-slot.booked {
+               background-color: #ccc;
+               cursor: not-allowed;
+          }
      </style>
 </head>
 
@@ -228,8 +233,15 @@
                     return;
                }
 
-               // Store appointment in local storage
+               // Check if the slot is already booked
                const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+               const isBooked = appointments.some(appointment => appointment.date === date && appointment.time === time);
+               if (isBooked) {
+                    displayMessage('This slot is already booked', 'error');
+                    return;
+               }
+
+               // Store appointment in local storage
                appointments.push({ name, email, date, time, doctor, googleMeet });
                localStorage.setItem('appointments', JSON.stringify(appointments));
 
@@ -340,16 +352,21 @@
 
           function generateTimeSlots() {
                const timeSlotsContainer = document.getElementById('timeSlots');
+               const date = document.getElementById('date').value;
                const slots = ['11:30 AM', '12:30 PM', '1:30 PM', '4:30 PM', '5:30 PM', '6:30 PM'];
+               const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+
                let html = '';
 
                slots.forEach(slot => {
-                    html += `<div class="time-slot" data-time="${slot}">${slot}</div>`;
+                    const isBooked = appointments.some(appointment => appointment.date === date && appointment.time === slot);
+                    const bookedClass = isBooked ? 'booked' : '';
+                    html += `<div class="time-slot ${bookedClass}" data-time="${slot}">${slot}</div>`;
                });
 
                timeSlotsContainer.innerHTML = html;
 
-               document.querySelectorAll('.time-slot').forEach(slot => {
+               document.querySelectorAll('.time-slot:not(.booked)').forEach(slot => {
                     slot.addEventListener('click', function () {
                          document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
                          this.classList.add('selected');
