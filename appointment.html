@@ -200,72 +200,50 @@
                <input type="text" placeholder="Enter Doctor name" id="Doctor" class="input-field">
           </p>
           <p class="input-container">
-               <input type="text" placeholder="Enter Google Meet Link" id="googleMeet" class="input-field">
+               <input type="text" placeholder="Enter Google Meet Link" id="googleMeet" class="input-field"
+                    value="https://meet.google.com/bvn-cwyv-eyz">
           </p>
           <button type="submit">Book Appointment</button>
      </form>
-
      <div id="appointmentDisplay">
           <h2>Previous Appointments</h2>
           <div id="appointmentsList"></div>
      </div>
-
      <script>
           document.addEventListener('DOMContentLoaded', function () {
                displayAllAppointments();
                generateCalendar();
           });
-
           document.getElementById('appointmentForm').addEventListener('submit', function (event) {
                event.preventDefault();
-
-               // Get form values
                const name = document.getElementById('text').value;
                const email = document.getElementById('email').value;
                const date = document.getElementById('date').value;
                const time = document.querySelector('.time-slot.selected') ? document.querySelector('.time-slot.selected').textContent : '';
                const doctor = document.getElementById('Doctor').value;
                const googleMeet = document.getElementById('googleMeet').value;
-
-               // Simple validation
                if (name === '' || email === '' || date === '' || time === '' || doctor === '' || googleMeet === '') {
                     displayMessage('Please fill in all fields', 'error');
                     return;
                }
-
-               // Check if the slot is already booked
                const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
                const isBooked = appointments.some(appointment => appointment.date === date && appointment.time === time);
                if (isBooked) {
                     displayMessage('This slot is already booked', 'error');
                     return;
                }
-
-               // Store appointment in local storage
                appointments.push({ name, email, date, time, doctor, googleMeet });
                localStorage.setItem('appointments', JSON.stringify(appointments));
-
-               // Display success message
                displayMessage(`Appointment booked successfully for ${name} with ${doctor} on ${date} at ${time}`, 'success');
-
-               // Display all appointments
                displayAllAppointments();
-
-               // Clear form
                document.getElementById('appointmentForm').reset();
                clearSelectedSlots();
           });
-
           function displayMessage(message, type) {
-               // Create notification element
                const notification = document.createElement('div');
                notification.className = `notification ${type} show`;
                notification.textContent = message;
-
-               // Append notification to body
                document.body.appendChild(notification);
-
-               // Remove notification after 3 seconds
                setTimeout(() => {
                     notification.classList.remove('show');
                     setTimeout(() => {
@@ -273,13 +251,10 @@
                     }, 500);
                }, 3000);
           }
-
           function displayAllAppointments() {
                const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-
                const appointmentsList = document.getElementById('appointmentsList');
                appointmentsList.innerHTML = '';
-
                appointments.forEach((appointment, index) => {
                     const appointmentItem = document.createElement('div');
                     appointmentItem.className = 'appointment-item';
@@ -289,57 +264,47 @@
                     <p><strong>Date:</strong> ${appointment.date}</p>
                     <p><strong>Time:</strong> ${appointment.time}</p>
                     <p><strong>Doctor:</strong> ${appointment.doctor}</p>
-                    <button class="join-button" onclick="openGoogleMeet('${appointment.googleMeet}')">Join</button>
-                    <button class="delete-button" onclick="deleteAppointment(${index})">Delete</button>
-                `;
+                    <button class="join-button" 
+                    onclick="openGoogleMeet('${appointment.googleMeet}')">Join</button>
+                    <button class="delete-button" 
+                    onclick="deleteAppointment(${index})">Delete</button>`;
                     appointmentsList.appendChild(appointmentItem);
                });
           }
-
           function deleteAppointment(index) {
                let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
                appointments.splice(index, 1);
                localStorage.setItem('appointments', JSON.stringify(appointments));
                displayAllAppointments();
           }
-
           function openGoogleMeet(url) {
                window.open(url, '_blank');
           }
-
           function generateCalendar() {
                const calendar = document.getElementById('calendar');
                const dateInput = document.getElementById('date');
-
                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                const today = new Date();
                const month = today.getMonth();
                const year = today.getFullYear();
-
                const firstDay = new Date(year, month, 1).getDay();
                const lastDate = new Date(year, month + 1, 0).getDate();
-
                let html = '<table class="calendar">';
                html += '<tr>';
                days.forEach(day => html += `<th>${day}</th>`);
                html += '</tr><tr>';
-
                for (let i = 0; i < firstDay; i++) {
                     html += '<td></td>';
                }
-
                for (let i = 1; i <= lastDate; i++) {
                     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
                     html += `<td class="date-cell" data-date="${dateStr}">${i}</td>`;
-
                     if ((i + firstDay) % 7 === 0) {
                          html += '</tr><tr>';
                     }
                }
-
                html += '</tr></table>';
                calendar.innerHTML = html;
-
                document.querySelectorAll('.date-cell').forEach(cell => {
                     cell.addEventListener('click', function () {
                          document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('selected'));
@@ -349,23 +314,18 @@
                     });
                });
           }
-
           function generateTimeSlots() {
                const timeSlotsContainer = document.getElementById('timeSlots');
                const date = document.getElementById('date').value;
-               const slots = ['9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM','11:30 AM', '12:30 PM', '1:30 PM', '4:30 PM', '5:30 PM', '6:30 PM'];
+               const slots = ['9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:30 PM', '1:30 PM', '4:30 PM', '5:30 PM', '6:30 PM'];
                const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-
                let html = '';
-
                slots.forEach(slot => {
                     const isBooked = appointments.some(appointment => appointment.date === date && appointment.time === slot);
                     const bookedClass = isBooked ? 'booked' : '';
                     html += `<div class="time-slot ${bookedClass}" data-time="${slot}">${slot}</div>`;
                });
-
                timeSlotsContainer.innerHTML = html;
-
                document.querySelectorAll('.time-slot:not(.booked)').forEach(slot => {
                     slot.addEventListener('click', function () {
                          document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
@@ -373,7 +333,6 @@
                     });
                });
           }
-
           function clearSelectedSlots() {
                document.querySelectorAll('.date-cell, .time-slot').forEach(element => {
                     element.classList.remove('selected');

@@ -1,60 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-     <link rel="stylesheet" href="css/adminlogin.css">
-     <title>Admin Login Page</title>
-     <style>
+     <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+          <link rel="stylesheet" href="css/adminlogin.css">
+          <title>Admin Login Page</title>
+          <style>
           .warning {
                color: red;
                font-size: 0.8em;
           }
-     </style>
-</head>
-
-<body>
-
-     <div class="container" id="container">
-          <div class="form-container sign-in">
-               <form id="adminSignInForm">
-                    <h1>Admin Sign In</h1><br>
-                    <span>Use your admin email and password</span>
-                    <input type="email" id="adminEmail" placeholder="Email">
-                    <input type="password" id="adminPassword" placeholder="Password">
-                    <span id="adminWarning" class="warning"></span>
-                    <a href="forget.html">Forget Your Password?</a>
-                    <button type="submit">Sign In</button>
-               </form>
-          </div>
-     </div>
-
-     <script>
+          </style></head>
+     <body>
+          <div class="container" id="container">
+               <div class="form-container sign-in">
+                    <form id="adminSignInForm">
+                         <h1>Admin Sign In</h1><br>
+                         <span>Use your admin email and password</span>
+                         <input type="email" id="adminEmail" placeholder="Email">
+                         <input type="password" id="adminPassword" placeholder="Password">
+                         <span id="adminWarning" class="warning"></span>
+                         <a href="forget.html">Forget Your Password?</a>
+                         <button type="submit">Sign In</button>
+                    </form></div></div>
+          <script>
           document.addEventListener('DOMContentLoaded', function () {
                const adminSignInForm = document.getElementById('adminSignInForm');
-
                adminSignInForm.addEventListener('submit', function (event) {
                     event.preventDefault();
                     const email = document.getElementById('adminEmail').value;
                     const password = document.getElementById('adminPassword').value;
                     const warning = document.getElementById('adminWarning');
-
-                    // Hardcoded admin credentials for demonstration purposes
                     const adminEmail = 'admin@example.com';
                     const adminPassword = 'admin123';
-
                     if (email.trim() === '' || password.trim() === '') {
                          warning.textContent = 'Please enter your admin email and password.';
                     } else if (email === adminEmail && password === adminPassword) {
-                         window.location.href = 'admin_dashboard.html'; // Redirect after successful validation
+                         window.location.href = 'admin_dashboard.html';
                     } else {
                          warning.textContent = 'Invalid admin email or password.';
                     }
                });
           });
-     </script>
+          </script>
 </body>
-
 </html>

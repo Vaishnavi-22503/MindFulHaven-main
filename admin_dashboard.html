@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Admin Dashboard</title>
-     <style>
+     <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Admin Dashboard</title>
+          <style>
           body {
                font-family: Arial, sans-serif;
                background-color: #f0f8ff;
@@ -60,45 +60,41 @@
           .delete-btn:hover {
                background-color: #b30000;
           }
-     </style>
-</head>
-<body>
-     <div class="container">
-          <h1>Admin Dashboard</h1>
-          <table>
-               <thead>
-                    <tr>
-                         <th>Name</th>
-                         <th>Email</th>
-                         <th>Date</th>
-                         <th>Time</th>
-                         <th>Doctor</th>
-                         <th>Actions</th>
-                    </tr>
-               </thead>
-               <tbody id="appointmentsTableBody">
-               </tbody>
-          </table>
-     </div>
+          </style>
+     </head>
+     <body>
+          <div class="container">
+               <h1>Admin Dashboard</h1>
+               <table>
+                    <thead>
+                         <tr>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Date</th>
+                              <th>Time</th>
+                              <th>Doctor</th>
+                              <th>Actions</th>
+                         </tr>
+                    </thead>
+                    <tbody id="appointmentsTableBody"></tbody></table></div>
      <script>
-          document.addEventListener('DOMContentLoaded', function () {
-               const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-               const tableBody = document.getElementById('appointmentsTableBody');
-               function renderAppointments() {
-                    tableBody.innerHTML = ''; // Clear existing rows
-                    appointments.forEach((appointment, index) => {
-                         const row = document.createElement('tr');
-                         row.innerHTML = `
-                        <td>${appointment.name}</td>
-                        <td>${appointment.email}</td>
-                        <td>${appointment.date}</td>
-                        <td>${appointment.time}</td>
-                        <td>${appointment.doctor}</td>
-                        <td>
-                            <button class="meeting-btn" onclick="joinMeeting('${appointment.name}', '${appointment.doctor}', '${appointment.googleMeet}')">Join Meeting</button>
-                            <button class="delete-btn" onclick="deleteAppointment(${index})">Delete</button>
-                        </td>
-                    `;
+     document.addEventListener('DOMContentLoaded', function () {
+          const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+          const tableBody = document.getElementById('appointmentsTableBody');
+          function renderAppointments() {
+               tableBody.innerHTML = ''; // Clear existing rows
+               appointments.forEach((appointment, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td>${appointment.name}</td>
+                    <td>${appointment.email}</td>
+                    <td>${appointment.date}</td>
+                    <td>${appointment.time}</td>
+                    <td>${appointment.doctor}</td>
+                    <td>
+                         <button class="meeting-btn" onclick="joinMeeting('${appointment.name}', 
+                         '${appointment.doctor}', '${appointment.googleMeet}')">Join Meeting</button>
+                         <button class="delete-btn" onclick="deleteAppointment(${index})">Delete</button></td>`;
                          tableBody.appendChild(row);
                     });
                }
