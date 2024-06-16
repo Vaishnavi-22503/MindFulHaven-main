@@ -207,3 +207,182 @@ button:hover {
           opacity: 0;
      }
 }
+.notification {
+     position: fixed;
+     top: 10px;
+     right: 10px;
+     background-color: #4CAF50;
+     color: white;
+     padding: 10px;
+     border-radius: 5px;
+     opacity: 0;
+     transition: opacity 0.5s;
+}
+
+.notification.error {
+     background-color: #f44336;
+}
+
+.notification.show {
+     opacity: 1;
+}
+
+.appointment-item {
+     margin-bottom: 20px;
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+}
+
+.appointment-item p {
+     margin: 5px 0;
+}
+
+.join-button {
+     background-color: #007bff;
+     font-size: large;
+     color: white;
+     border: none;
+     height: 50px;
+     width: 100px;
+     padding: 5px 10px;
+     border-radius: 3px;
+     cursor: pointer;
+}
+
+.delete-button {
+     background-color: #ff0000;
+     margin: 25px;
+     margin-right: 250pt;
+     font-size: large;
+     color: white;
+     border: none;
+     height: 50px;
+     width: 100px;
+     padding: 5px 10px;
+     border-radius: 3px;
+     cursor: pointer;
+}
+
+.delete-button:hover {
+     background-color: #b30000;
+}
+
+.input-container {
+     --c-text: rgb(50, 50, 80);
+     --c-bg: rgb(252, 252, 252);
+     --c-outline: rgb(55, 45, 190);
+     display: grid;
+     gap: 1ch;
+     position: relative;
+     max-width: 650px;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     color: black;
+}
+
+.input-field {
+     padding: 0.5em 0.75em;
+     border-radius: 0.2em;
+     border: 1px solid var(--c-border, currentColor);
+     color: var(--c-text);
+     font-size: 1rem;
+     letter-spacing: 0.1ch;
+     width: 100%;
+}
+
+.input-field:not(:placeholder-shown)+.input-label {
+     transform: translateY(-220%);
+     opacity: 1;
+}
+
+.input-field:invalid {
+     --c-border: rgb(230, 85, 60);
+     --c-text: rgb(230, 85, 60);
+     --c-outline: rgb(230, 85, 60);
+}
+
+.input-field:is(:disabled, :read-only) {
+     --c-border: rgb(150, 150, 150);
+     --c-text: rgb(170, 170, 170);
+}
+
+.input-field:is(:focus, :focus-visible) {
+     outline: 2px solid var(--c-outline);
+     outline-offset: 2px;
+}
+
+.input-label {
+     --timing: 200ms ease-in;
+     position: absolute;
+     left: 0;
+     top: 50%;
+     transition: transform var(--timing),
+          opacity var(--timing);
+     transform: translateY(-50%);
+     opacity: 0;
+     color: var(--c-text);
+     font-weight: 500;
+}
+
+.calendar-container {
+     max-width: 300px;
+     margin: 20px auto;
+}
+
+.calendar {
+     width: 100%;
+     border-collapse: collapse;
+}
+
+.calendar th,
+.calendar td {
+     padding: 10px;
+     text-align: center;
+     border: 1px solid #ddd;
+     cursor: pointer;
+}
+
+.calendar th {
+     background-color: #f4f4f4;
+}
+
+.calendar td {
+     cursor: pointer;
+}
+
+.calendar .selected {
+     background-color: #007bff;
+     color: white;
+}
+
+.calendar .disabled {
+     color: #ccc;
+     cursor: not-allowed;
+}
+
+.time-slots {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 10px;
+     justify-content: center;
+     margin-top: 20px;
+}
+
+.time-slot {
+     padding: 10px 15px;
+     border: 1px solid #ddd;
+     border-radius: 5px;
+     cursor: pointer;
+     transition: background-color 0.3s;
+}
+
+.time-slot.selected {
+     background-color: #007bff;
+     /* margin-left: auto; */
+     color: white;
+}
+
+.time-slot.booked {
+     background-color: #ccc;
+     cursor: not-allowed;
+}

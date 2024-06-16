@@ -1,185 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="css/appointment.css">
      <title>Book Appointment</title>
-     <style>
-          .notification {
-               position: fixed;
-               top: 10px;
-               right: 10px;
-               background-color: #4CAF50;
-               color: white;
-               padding: 10px;
-               border-radius: 5px;
-               opacity: 0;
-               transition: opacity 0.5s;
-          }
-
-          .notification.error {
-               background-color: #f44336;
-          }
-
-          .notification.show {
-               opacity: 1;
-          }
-
-          .appointment-item {
-               margin-bottom: 20px;
-               padding: 10px;
-               border: 1px solid #ccc;
-               border-radius: 5px;
-          }
-
-          .appointment-item p {
-               margin: 5px 0;
-          }
-
-          .join-button {
-               background-color: #007bff;
-               font-size: large;
-               color: white;
-               border: none;
-               height: 50px;
-               width: 100px;
-               padding: 5px 10px;
-               border-radius: 3px;
-               cursor: pointer;
-          }
-
-          .delete-button {
-               background-color: #ff0000;
-               margin: 25px;
-               margin-right: 250pt;
-               font-size: large;
-               color: white;
-               border: none;
-               height: 50px;
-               width: 100px;
-               padding: 5px 10px;
-               border-radius: 3px;
-               cursor: pointer;
-          }
-
-          .delete-button:hover {
-               background-color: #b30000;
-          }
-
-          .input-container {
-               --c-text: rgb(50, 50, 80);
-               --c-bg: rgb(252, 252, 252);
-               --c-outline: rgb(55, 45, 190);
-               display: grid;
-               gap: 1ch;
-               position: relative;
-               max-width: 650px;
-               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-               color: black;
-          }
-
-          .input-field {
-               padding: 0.5em 0.75em;
-               border-radius: 0.2em;
-               border: 1px solid var(--c-border, currentColor);
-               color: var(--c-text);
-               font-size: 1rem;
-               letter-spacing: 0.1ch;
-               width: 100%;
-          }
-
-          .input-field:not(:placeholder-shown)+.input-label {
-               transform: translateY(-220%);
-               opacity: 1;
-          }
-
-          .input-field:invalid {
-               --c-border: rgb(230, 85, 60);
-               --c-text: rgb(230, 85, 60);
-               --c-outline: rgb(230, 85, 60);
-          }
-
-          .input-field:is(:disabled, :read-only) {
-               --c-border: rgb(150, 150, 150);
-               --c-text: rgb(170, 170, 170);
-          }
-
-          .input-field:is(:focus, :focus-visible) {
-               outline: 2px solid var(--c-outline);
-               outline-offset: 2px;
-          }
-
-          .input-label {
-               --timing: 200ms ease-in;
-               position: absolute;
-               left: 0;
-               top: 50%;
-               transition: transform var(--timing),
-                    opacity var(--timing);
-               transform: translateY(-50%);
-               opacity: 0;
-               color: var(--c-text);
-               font-weight: 500;
-          }
-
-          .calendar-container {
-               max-width: 300px;
-               margin: 20px auto;
-          }
-
-          .calendar {
-               width: 100%;
-               border-collapse: collapse;
-          }
-
-          .calendar th,
-          .calendar td {
-               padding: 10px;
-               text-align: center;
-               border: 1px solid #ddd;
-          }
-
-          .calendar th {
-               background-color: #f4f4f4;
-          }
-
-          .calendar td {
-               cursor: pointer;
-          }
-
-          .calendar .selected {
-               background-color: #007bff;
-               color: white;
-          }
-
-          .time-slots {
-               display: flex;
-               flex-wrap: wrap;
-               gap: 10px;
-               justify-content: center;
-               margin-top: 20px;
-          }
-
-          .time-slot {
-               padding: 10px 15px;
-               border: 1px solid #ddd;
-               border-radius: 5px;
-               cursor: pointer;
-               transition: background-color 0.3s;
-          }
-
-          .time-slot.selected {
-               background-color: #007bff;
-               color: white;
-          }
-
-          .time-slot.booked {
-               background-color: #ccc;
-               cursor: not-allowed;
-          }
-     </style>
 </head>
 
 <body>
@@ -267,76 +92,127 @@
                     <button class="join-button" 
                     onclick="openGoogleMeet('${appointment.googleMeet}')">Join</button>
                     <button class="delete-button" 
-                    onclick="deleteAppointment(${index})">Delete</button>`;
+                    onclick="deleteAppointment(${index})">Delete</button>
+                    `;
                     appointmentsList.appendChild(appointmentItem);
                });
           }
           function deleteAppointment(index) {
-               let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+               const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
                appointments.splice(index, 1);
                localStorage.setItem('appointments', JSON.stringify(appointments));
                displayAllAppointments();
           }
-          function openGoogleMeet(url) {
-               window.open(url, '_blank');
-          }
           function generateCalendar() {
                const calendar = document.getElementById('calendar');
-               const dateInput = document.getElementById('date');
-               const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-               const today = new Date();
-               const month = today.getMonth();
-               const year = today.getFullYear();
-               const firstDay = new Date(year, month, 1).getDay();
-               const lastDate = new Date(year, month + 1, 0).getDate();
-               let html = '<table class="calendar">';
-               html += '<tr>';
-               days.forEach(day => html += `<th>${day}</th>`);
-               html += '</tr><tr>';
-               for (let i = 0; i < firstDay; i++) {
-                    html += '<td></td>';
-               }
-               for (let i = 1; i <= lastDate; i++) {
-                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-                    html += `<td class="date-cell" data-date="${dateStr}">${i}</td>`;
-                    if ((i + firstDay) % 7 === 0) {
-                         html += '</tr><tr>';
-                    }
-               }
-               html += '</tr></table>';
-               calendar.innerHTML = html;
-               document.querySelectorAll('.date-cell').forEach(cell => {
-                    cell.addEventListener('click', function () {
-                         document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('selected'));
-                         this.classList.add('selected');
-                         dateInput.value = this.getAttribute('data-date');
-                         generateTimeSlots();
+               const currentDate = new Date();
+               const currentYear = currentDate.getFullYear();
+               const currentMonth = currentDate.getMonth();
+               renderCalendar(currentYear, currentMonth);
+               function renderCalendar(year, month) {
+                    calendar.innerHTML = '';
+                    const firstDay = new Date(year, month, 1);
+                    const lastDay = new Date(year, month + 1, 0);
+                    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                    const monthYear = document.createElement('div');
+                    monthYear.textContent = `${monthNames[month]} ${year}`;
+                    monthYear.style.fontWeight = 'bold';
+                    monthYear.style.marginBottom = '10px';
+                    calendar.appendChild(monthYear);
+                    const table = document.createElement('table');
+                    table.className = 'calendar';
+                    const thead = document.createElement('thead');
+                    const daysRow = document.createElement('tr');
+                    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    daysOfWeek.forEach(day => {
+                         const th = document.createElement('th');
+                         th.textContent = day;
+                         daysRow.appendChild(th);
                     });
+                    thead.appendChild(daysRow);
+                    table.appendChild(thead);
+                    const tbody = document.createElement('tbody');
+                    let date = 1;
+                    for (let i = 0; i < 6; i++) {
+                         const row = document.createElement('tr');
+                         for (let j = 0; j < 7; j++) {
+                              const cell = document.createElement('td');
+                              if (i === 0 && j < firstDay.getDay()) {
+                                   cell.textContent = '';
+                                   cell.className = 'disabled';
+                              } else if (date > lastDay.getDate()) {
+                                   cell.textContent = '';
+                                   cell.className = 'disabled';
+                              } else {
+                                   cell.textContent = date;
+                                   cell.addEventListener('click', function () {
+                                        const selectedDate = new Date(year, month, date);
+                                        const formattedDate = selectedDate.toISOString().split('T')[0];
+                                        document.getElementById('date').value = formattedDate;
+                                        document.querySelectorAll('.calendar td').forEach(td => td.classList.remove('selected'));
+                                        this.classList.add('selected');
+                                        generateTimeSlots(formattedDate);
+                                   });
+                                   date++;
+                              }
+                              row.appendChild(cell);
+                         }
+                         tbody.appendChild(row);
+                         if (date > lastDay.getDate()) {
+                              break;
+                         }
+                    }
+                    table.appendChild(tbody);
+                    calendar.appendChild(table);
+                    const prevMonthBtn = document.createElement('button');
+                    prevMonthBtn.textContent = 'Previous';
+                    prevMonthBtn.addEventListener('click', function () {
+                         const newMonth = month === 0 ? 11 : month - 1;
+                         const newYear = month === 0 ? year - 1 : year;
+                         renderCalendar(newYear, newMonth);
+                    });
+                    const nextMonthBtn = document.createElement('button');
+                    nextMonthBtn.textContent = 'Next';
+                    nextMonthBtn.addEventListener('click', function () {
+                         const newMonth = month === 11 ? 0 : month + 1;
+                         const newYear = month === 11 ? year + 1 : year;
+                         renderCalendar(newYear, newMonth);
+                    });
+                    calendar.appendChild(prevMonthBtn);
+                    calendar.appendChild(nextMonthBtn);
+               }
+          }
+          function generateTimeSlots(date) {
+               const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+               const bookedSlots = appointments.filter(appointment => appointment.date === date).map(appointment => appointment.time);
+               const timeSlots = [
+                    '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+                    '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'
+               ];
+               const timeSlotsContainer = document.getElementById('timeSlots');
+               timeSlotsContainer.innerHTML = '';
+               timeSlots.forEach(time => {
+                    const timeSlot = document.createElement('div');
+                    timeSlot.className = 'time-slot';
+                    if (bookedSlots.includes(time)) {
+                         timeSlot.classList.add('booked');
+                         timeSlot.textContent = `${time} (Booked)`;
+                    } else {
+                         timeSlot.textContent = time;
+                         timeSlot.addEventListener('click', function () {
+                              document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+                              this.classList.add('selected');
+                         });
+                    }
+                    timeSlotsContainer.appendChild(timeSlot);
                });
           }
-          function generateTimeSlots() {
-               const timeSlotsContainer = document.getElementById('timeSlots');
-               const date = document.getElementById('date').value;
-               const slots = ['9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:30 PM', '1:30 PM', '4:30 PM', '5:30 PM', '6:30 PM'];
-               const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-               let html = '';
-               slots.forEach(slot => {
-                    const isBooked = appointments.some(appointment => appointment.date === date && appointment.time === slot);
-                    const bookedClass = isBooked ? 'booked' : '';
-                    html += `<div class="time-slot ${bookedClass}" data-time="${slot}">${slot}</div>`;
-               });
-               timeSlotsContainer.innerHTML = html;
-               document.querySelectorAll('.time-slot:not(.booked)').forEach(slot => {
-                    slot.addEventListener('click', function () {
-                         document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-                         this.classList.add('selected');
-                    });
-               });
+          function openGoogleMeet(googleMeetLink) {
+               window.open(googleMeetLink, '_blank');
           }
           function clearSelectedSlots() {
-               document.querySelectorAll('.date-cell, .time-slot').forEach(element => {
-                    element.classList.remove('selected');
-               });
+               document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+               document.querySelectorAll('.calendar td').forEach(td => td.classList.remove('selected'));
           }
      </script>
 </body>
