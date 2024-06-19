@@ -76,29 +76,23 @@ button[type="submit"]:hover {
      h1 {
           font-size: 20px;
      }
-
      p {
           font-size: 14px;
      }
-
      input[type="email"] {
           padding: 8px;
      }
-
      button[type="submit"] {
           padding: 8px;
      }
 }
-
 @media (max-width: 600px) {
      .container {
           padding: 15px;
      }
-
      h1 {
           font-size: 18px;
      }
-
      p {
           font-size: 12px;
      }
