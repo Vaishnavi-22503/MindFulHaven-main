@@ -1,7 +1,4 @@
-
-// Jquery Steller JS //
 ;(function($, window, document, undefined) {
-
 	var pluginName = 'stellar',
 		defaults = {
 			scrollProperty: 'scroll',
@@ -17,12 +14,10 @@
 			hideElement: function($elem) { $elem.hide(); },
 			showElement: function($elem) { $elem.show(); }
 		},
-
 		scrollProperty = {
 			scroll: {
 				getLeft: function($elem) { return $elem.scrollLeft(); },
 				setLeft: function($elem, val) { $elem.scrollLeft(val); },
-
 				getTop: function($elem) { return $elem.scrollTop();	},
 				setTop: function($elem, val) { $elem.scrollTop(val); }
 			},
@@ -45,7 +40,6 @@
 				}
 			}
 		},
-
 		positionProperty = {
 			position: {
 				setLeft: function($elem, left) { $elem.css('left', left); },
@@ -57,8 +51,6 @@
 				}
 			}
 		},
-
-		// Returns a function which adds a vendor prefix to any CSS property name
 		vendorPrefix = (function() {
 			var prefixes = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/,
 				style = $('script')[0].style,
