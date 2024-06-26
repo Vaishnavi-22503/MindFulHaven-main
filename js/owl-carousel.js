@@ -1,4 +1,3 @@
-// Owl Carousel JS //
 ! function(a, b, c, d) {
     function e(b, c) {
         this.settings = null, this.options = a.extend({}, e.Defaults, c), this.$element = a(b), this.drag = a.extend({}, m), this.state = a.extend({}, n), this.e = a.extend({}, o), this._plugins = {}, this._supress = {}, this._current = null, this._speed = null, this._coordinates = [], this._breakpoint = null, this._width = null, this._items = [], this._clones = [], this._mergers = [], this._invalidated = {}, this._pipe = [], a.each(e.Plugins, a.proxy(function(a, b) {
@@ -10,7 +9,6 @@
             })
         }, this)), this.setup(), this.initialize()
     }
-
     function f(a) {
         if (a.touches !== d) return {
             x: a.touches[0].pageX,

@@ -1,21 +1,16 @@
 $(document).ready(function(){
-	
-		
 	$(".color1" ).click(function(){
 		$("#colors" ).attr("href", "css/color/color1.css" );
 		return false;
 	});
-		
 	$(".color2" ).click(function(){
 		$("#colors" ).attr("href", "css/color/color2.css" );
 		return false;
 	});
-		
 	$(".color3" ).click(function(){
 		$("#colors" ).attr("href", "css/color/color3.css" );
 		return false;
 	});
-		
 	$(".color4" ).click(function(){
 		$("#colors" ).attr("href", "css/color/color4.css" );
 		return false;
@@ -52,13 +47,7 @@ $(document).ready(function(){
 		$("#colors" ).attr("href", "css/color/color12.css" );
 		return false;
 	});
-	
-	
 	$('.color-plate .color-plate-icon').on( "click", function(){
 		$('.color-plate').toggleClass('active');
 	});
-	
-		
-
-	
 } );
